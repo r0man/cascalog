@@ -1008,4 +1008,18 @@
   (let [numbers [[1 2] [3 4] [5 6] [7 8] [9 10]]
         sampling-query (c/fixed-sample numbers 5)]
     (fact "sample should contain some of the inputs"
-      sampling-query => (produces-some [[1 2] [3 4] [5 6]]))))
+          sampling-query => (produces-some [[1 2] [3 4] [5 6]]))))
+
+(deftest test-get-map-tuple
+  (let [source [{:a 1} {:a 2}]]
+    (test?<- [[{:a 1} 1] [{:a 2} 2]]
+             [?m ?a]
+             (source :> ?m)
+             (get ?m :a :> ?a))))
+
+(deftest test-get-in-map-tuple
+  (let [source [{:a 1} {:a 2}]]
+    (test?<- [[{:a 1} 1] [{:a 2} 2]]
+             [?m ?a]
+             (source :> ?m)
+             (get-in ?m [:a] :> ?a))))
